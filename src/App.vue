@@ -1,30 +1,43 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="my-container">
+    <div class="left">
+      <a-button type="link" size="large">
+        <template #icon><UnorderedListOutlined /></template>
+        任务
+      </a-button>
+    </div>
+    <div class="right">
+      <router-view/>
+    </div>
   </div>
-  <router-view/>
 </template>
-
+<script lang="ts">
+import { UnorderedListOutlined } from '@ant-design/icons-vue'
+import { defineComponent } from 'vue'
+export default defineComponent ({
+  components: {
+    UnorderedListOutlined,
+  },
+})
+</script>
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.my-container {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.left {
+  width: 15%;
+  background: #2c3e50;
+}
+.right {
+  width: 85%;
+  margin-right: 10px;
 }
 </style>
