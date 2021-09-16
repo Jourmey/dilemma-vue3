@@ -28,6 +28,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { SearchOutlined } from "@ant-design/icons-vue";
+import { BaseUrl } from "../api/api";
 import { getViedo, GetReq, Video } from "../api/api";
 
 const columns = [
@@ -60,7 +61,13 @@ const buton_search = async () => {
     page_no: 0,
   };
   const res = await getViedo(req);
-  data.value = res.data.result;
+  let videos = res.data.result;
+
+  // 替换路径
+  for (let i = 0; i < videos.length; i++) {
+    videos[i].path = videos[i].path.replaceAll("0.0.0.0", BaseUrl);
+  }
+  data.value = videos;
 };
 
 const a_buton_down = async (taskinfoid: number) => {

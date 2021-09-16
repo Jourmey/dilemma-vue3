@@ -1,11 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 
+export const BaseUrl = "http://jourmey.top"
 const instance = axios.create({
-    baseURL: 'http://jourmey.top:8081',
+    baseURL: BaseUrl + ':8081',
     // baseURL: 'http://localhost:8081',
     timeout: 3000,
     headers: { 'content-type': 'application/json' }
 });
+
 
 export interface Response {
     code: number;
@@ -96,5 +98,5 @@ export async function getViedo(req: GetReq): Promise<AxiosResponse<VideoResponse
 
 export async function postViedoDownload(req: VideoDownloadReq): Promise<AxiosResponse<Response>> {
     return instance.post("/video/download", req)
+    // return instance2.post("/online/getCoursewareByCourseId", req)
 }
-
