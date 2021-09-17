@@ -17,9 +17,9 @@
   <a-row>
     <a-col flex="auto">
       <a-table :columns="columns" :data-source="data" rowKey="id">
-        <!-- <template #operation="{ record }">
-          <a @click="a_buton_down(record.id)">Down</a>
-        </template> -->
+        <template #operation="{ record }">
+          <a :href="record.path" target="_blank"> {{ record.path }}</a>
+        </template>
       </a-table>
     </a-col>
   </a-row>
@@ -34,17 +34,16 @@ import { getViedo, GetReq, Video } from "../api/api";
 const columns = [
   { title: "ID", dataIndex: "id" },
   { title: "TASKINFOID", dataIndex: "task_info_id" },
-  { title: "PATH", dataIndex: "path" },
+  // { title: "PATH", dataIndex: "path" },
+  {
+    title: "PATH",
+    dataIndex: "path",
+    key: "operation",
+    slots: { customRender: "operation" },
+  },
   { title: "TITLE", dataIndex: "title" },
   { title: "CREATE_TIME", dataIndex: "create_time" },
   { title: "UPDATE_TIME", dataIndex: "update_time" },
-  // {
-  //   title: "ACTION",
-  //   key: "operation",
-  //   fixed: "right",
-  //   width: 100,
-  //   slots: { customRender: "operation" },
-  // },
 ];
 
 const data = ref<Video[]>();
@@ -70,12 +69,17 @@ const buton_search = async () => {
   data.value = videos;
 };
 
-const a_buton_down = async (taskinfoid: number) => {
-  // let req: VideoDownloadReq = {
-  //   task_info_id: [taskinfoid],
-  // };
-  // const res = await postViedoDownload(req);
-};
+// const model_visible = ref<boolean>(false);
+// const model_handleOk = (e: MouseEvent) => {
+//   model_visible.value = false;
+// };
+// const model_showModal = async () => {
+//   const res = await get("http://localhost:9090/Bilibili/1/");
+//   model_html.value = res.data;
+
+//   model_visible.value = true;
+// };
+// const model_html = ref<string>("");
 
 export default defineComponent({
   name: "video",
@@ -83,13 +87,13 @@ export default defineComponent({
     return {
       data,
       columns,
-      // current,
-      // pageSize,
       input_taskinfoid,
-      // btnClick,
       buton_search,
-      a_buton_down,
-      // onShowSizeChange,
+      // // 模态框
+      // model_visible,
+      // model_handleOk,
+      // model_showModal,
+      // model_html,
     };
   },
   components: {

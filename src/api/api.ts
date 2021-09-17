@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 
 export const BaseUrl = "http://jourmey.top"
+// export const BaseUrl = "dilemma"
+
 const instance = axios.create({
-    baseURL: BaseUrl + ':8081',
-    // baseURL: 'http://localhost:8081',
+    baseURL: "http://dilemma",
     timeout: 3000,
     headers: { 'content-type': 'application/json' }
 });
