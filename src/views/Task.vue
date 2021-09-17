@@ -3,11 +3,29 @@
     <a-col>
       <a-input flex="100px" v-model:value="input_taskid" placeholder="TASKID" />
     </a-col>
+    <!-- 搜索 -->
     <a-col>
       <a-button type="primary" @click="buton_search">
         <template #icon><SearchOutlined /></template>
         Search
       </a-button>
+    </a-col>
+    <!-- 新增 -->
+    <a-col>
+      <!-- 新增的模态框 -->
+      <a-button type="primary" @click="showAddTaskModal"> ADD TASK </a-button>
+      <a-modal
+        title="创建任务"
+        v-model:visible="modal_visible"
+        :confirm-loading="modal_confirmLoading"
+        @ok="modal_handleOk"
+      >
+        <a-input
+          flex="100px"
+          v-model:value="input_url"
+          placeholder="https://www.bilibili.com/video/BV1cP4y147Hj"
+        />
+      </a-modal>
     </a-col>
   </a-row>
   <a-row>
@@ -31,7 +49,9 @@
 import { defineComponent, ref } from "vue";
 import { SearchOutlined } from "@ant-design/icons-vue";
 import { getTask, GetReq, Task } from "../api/api";
+import { postTaskCreat, TaskCreatReq, Response } from "../api/api";
 
+// 列表
 const columns = [
   {
     title: "ID",
@@ -46,17 +66,9 @@ const columns = [
   { title: "SITE", dataIndex: "site" },
 ];
 
+// 列表
 const data = ref<Task[]>();
 const input_taskid = ref<string>("");
-
-// const pagination_Pagination = ref<Pagination>({ position: 'bottom', pageSize: 20, current: 1});
-
-// interface Pagination {
-//   postion: string;
-//   pageSize: number;
-//   current: number;
-// }
-
 const buton_search = async () => {
   let idn = 0;
   if (input_taskid.value != "") {
@@ -71,27 +83,28 @@ const buton_search = async () => {
   data.value = res.data.result;
 };
 
-// const btnClick = async () => {
-//   let req: GetReq = {
-//     id: 0,
-//     page_size: 100,
-//     page_no: 0,
-//   };
-//   const res = await getTask("/task", req);
-//   console.log("任务", res);
-//   data.value = res.data.result;
-// };
+// 模态框
+const modal_visible = ref<boolean>(false);
+const modal_confirmLoading = ref<boolean>(false);
+const showAddTaskModal = () => {
+  modal_visible.value = true;
+};
 
-// // 翻页
-// const onShowSizeChange = async (current: number, pageSize: number) => {
-//   let req: GetReq = {
-//     id: 0,
-//     page_size: 100,
-//     page_no: 0,
-//   };
-//   const res = await getTask(req);
-//   const data = res.data.result;
-// };
+const input_url = ref<string>("");
+
+// 模态框创建任务
+const modal_handleOk = async () => {
+  modal_confirmLoading.value = true;
+
+  let req: TaskCreatReq = {
+    url: input_url.value,
+    tag: [0],
+  };
+  postTaskCreat(req).then(() => {
+    modal_visible.value = false;
+    modal_confirmLoading.value = false;
+  });
+};
 
 export default defineComponent({
   name: "task",
@@ -105,6 +118,12 @@ export default defineComponent({
       // btnClick,
       buton_search,
       // onShowSizeChange,
+      showAddTaskModal,
+      modal_visible,
+      modal_confirmLoading,
+      modal_handleOk,
+
+      input_url,
     };
   },
   components: {

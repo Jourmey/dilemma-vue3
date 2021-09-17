@@ -46,7 +46,7 @@ export async function getTask(req: GetReq): Promise<AxiosResponse<TaskResponse>>
     return instance.get("/task", { params: req })
 }
 export async function postTaskCreat(req: TaskCreatReq): Promise<AxiosResponse<Response>> {
-    return instance.post("/task/creat", { data: req })
+    return instance.post("/task/creat", req)
 }
 
 
