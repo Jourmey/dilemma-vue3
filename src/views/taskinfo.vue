@@ -32,7 +32,7 @@ const columns = [
   { title: "TASKID", dataIndex: "task_id" },
   { title: "CONTAINER", dataIndex: "container" },
   { title: "QUALITY", dataIndex: "quality" },
-  { title: "SIZE", dataIndex: "size" },
+  { title: "SIZE", dataIndex: "size2" },
   { title: "STATUS", dataIndex: "status" },
   {
     title: "ACTION",
@@ -58,6 +58,12 @@ const buton_search = async () => {
     page_no: 0,
   };
   const res = await getTaskinfo(req);
+
+  for (let i = 0; i < res.data.result.length; i++) {
+    // 转换大小
+    res.data.result[i].size2 = FileSize(res.data.result[i].size);
+  }
+
   data.value = res.data.result;
 };
 
@@ -67,6 +73,25 @@ const a_buton_down = async (taskinfoid: number) => {
   };
   const res = await postViedoDownload(req);
 };
+
+function FileSize(size: number) {
+  if (size == 0) {
+    return "0 Bytes";
+  }
+  let sizename = [
+    " Bytes",
+    " KB",
+    " MB",
+    " GB",
+    " TB",
+    " PB",
+    " EB",
+    " ZB",
+    " YB",
+  ];
+  let i = Math.floor(Math.log(size) / Math.log(1024));
+  return (size / Math.pow(1024, i)).toPrecision(3) + sizename[i];
+}
 
 export default defineComponent({
   name: "taskinfo",

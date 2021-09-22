@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 
-export const BaseUrl = "http://jourmey.top"
+export const BaseUrl = "http://170.106.168.16"
 // export const BaseUrl = "dilemma"
 
 const instance = axios.create({
-    baseURL: "http://dilemma",
+    baseURL: "http://170.106.168.16:8081",//服务名
     timeout: 3000,
     headers: { 'content-type': 'application/json' }
 });
@@ -66,6 +66,7 @@ export interface TaskInfo {
     container: string;      // 类型:mp4
     quality: string;        // 质量:流畅 360P
     size: number;           // 任务大小
+    size2: string;          // 前端扩充字段
     status: number;         // 任务状态 0未处理 1处理中 2获取信息 3获取失败
     create_time: string;    // 创建时间
     update_time: string;    // 修改时间
@@ -99,5 +100,4 @@ export async function getViedo(req: GetReq): Promise<AxiosResponse<VideoResponse
 
 export async function postViedoDownload(req: VideoDownloadReq): Promise<AxiosResponse<Response>> {
     return instance.post("/video/download", req)
-    // return instance2.post("/online/getCoursewareByCourseId", req)
 }
