@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 
-export const BaseUrl = "http://170.106.168.16"
+export const BaseUrl = "http://jourmey.top"
 // export const BaseUrl = "dilemma"
 
 const instance = axios.create({
-    baseURL: "http://170.106.168.16:8081",//服务名
+    baseURL: "http://jourmey.top:8081",//服务名
     timeout: 3000,
     headers: { 'content-type': 'application/json' }
 });
